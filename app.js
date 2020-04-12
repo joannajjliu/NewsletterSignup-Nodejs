@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const request = require("request");
 const https = require("https");
+const dotenv = require("dotenv/config");
 
 const app = express();
 
@@ -30,13 +31,13 @@ app.post("/", (req, res) => {
 
     const jsonData = JSON.stringify(data);
 
-    const listId = 3242423656;
-    const serverNum = 19;
+    const listId = process.env.LIST_ID;
+    const serverNum = process.env.SERVER_NUM;
     const url = `https://us${serverNum}.api.mailchimp.com/3.0/lists/${listId}`;
 
     const options = {
         method: "POST",
-        auth: "jojoliu:e30c8cbbdf66973be829e66f45f1b7c1-us19"
+        auth: `jojoliu:${process.env.MAIL_API_KEY}`
     };
 
     const request = https.request(url, options, (response) => {
@@ -68,9 +69,3 @@ const portUsed = process.env.PORT || 3000; //heroku assigned port or port 3000
 app.listen(portUsed, () => {
     console.log(`server is running on port ${portUsed}`);
 });
-
-// Mailchimp API Key:
-// e30c8cbbdf66973be829e66f45f1b7c1-us19
-
-//List Id"
-//3242423656
